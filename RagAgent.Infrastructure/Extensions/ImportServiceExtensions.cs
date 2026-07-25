@@ -1,4 +1,4 @@
-﻿using MassTransit;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,16 +24,20 @@ public static class ImportServiceExtensions
         IConfiguration configuration)
     {
         services.Configure<OllamaOptions>(configuration.GetSection(OllamaOptions.SectionName));
+        services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));
 
         AddServices(services);
         ConfigureDatabase(services, configuration);
-        ConfigureRabbitMq(services);
+        ConfigureRabbitMq(services, configuration);
         
         return services;
     }
 
-    private static void ConfigureRabbitMq(IServiceCollection services)
+    private static void ConfigureRabbitMq(IServiceCollection services, IConfiguration configuration)
     {
+        var rabbitMqOptions = configuration.GetSection(RabbitMqOptions.SectionName).Get<RabbitMqOptions>()
+            ?? new RabbitMqOptions();
+
         services.AddMassTransit(cfg =>
         {
             cfg.SetKebabCaseEndpointNameFormatter();
@@ -51,10 +55,10 @@ public static class ImportServiceExtensions
     
             cfg.UsingRabbitMq((context, rabbit) =>
             {
-                rabbit.Host("localhost", "/", h =>
+                rabbit.Host(rabbitMqOptions.Host, rabbitMqOptions.VirtualHost, h =>
                 {
-                    h.Username("raguser");
-                    h.Password("ragpassword");
+                    h.Username(rabbitMqOptions.Username);
+                    h.Password(rabbitMqOptions.Password);
                 });
 
                 rabbit.ConfigureEndpoints(context);
