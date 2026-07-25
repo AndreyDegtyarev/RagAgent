@@ -14,6 +14,8 @@ public class Document : IDomainEntity
     {
         Id = Guid.CreateVersion7();
         OriginalFileName = name;
+        StoragePath = name;
+        ContentType = "application/octet-stream";
         Status = DocumentStatus.Created;
         CreatedAt = DateTime.UtcNow;
     }
@@ -37,7 +39,7 @@ public class Document : IDomainEntity
 
     public DateTime? CompletedAt { get; private set; }
 
-    public byte[] RowVersion { get; private set; } = default!;
+    public uint RowVersion { get; private set; } = default!;
 
 
     public void MarkFileStored()

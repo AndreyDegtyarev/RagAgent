@@ -1,4 +1,5 @@
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using RagAgent.Application.Abstractions;
 using RagAgent.Application.Abstractions.Persistence;
 using RagAgent.Application.Abstractions.Processing;
@@ -12,12 +13,14 @@ public sealed class TextExtractionConsumer(
     IFileStorage fileStorage,
     ITextExtractor textExtractor,
     IDocumentTextRepository documentTextRepository,
-    IProcessingJobService jobService)
+    IProcessingJobService jobService,
+    ILogger<TextExtractionConsumer> logger)
     : IConsumer<TextExtractionRequested>
 {
     public async Task Consume(ConsumeContext<TextExtractionRequested> context)
     {
         var message = context.Message;
+        logger.LogInformation("Starting text extraction for document {DocumentId}", message.DocumentId);
 
         await using var stream = await fileStorage.OpenReadAsync(
                 message.DocumentId,
@@ -37,6 +40,8 @@ public sealed class TextExtractionConsumer(
         await documentTextRepository.SaveAsync(
             documentText,
             context.CancellationToken);
+
+        logger.LogInformation("Extracted {Length} characters from {Pages} pages for document {DocumentId}", text.Text.Length, text.Pages, message.DocumentId);
 
         await jobService.StartProcessingAsync(
             message.DocumentId,

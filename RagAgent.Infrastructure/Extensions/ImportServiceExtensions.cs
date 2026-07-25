@@ -27,7 +27,9 @@ public static class ImportServiceExtensions
         services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));
 
         AddServices(services);
+        
         ConfigureDatabase(services, configuration);
+        
         ConfigureRabbitMq(services, configuration);
         
         return services;
@@ -79,6 +81,8 @@ public static class ImportServiceExtensions
                     {
                         npgsql.UseVector();
                     });
+                
+                
             });
     }
 

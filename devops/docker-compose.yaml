@@ -1,4 +1,4 @@
-﻿version: "3.9"
+version: "3.9"
 
 services:
 
@@ -51,6 +51,26 @@ services:
       timeout: 5s
       retries: 5
 
+#  api:
+#    build:
+#      context: ..
+#      dockerfile: RagAgent.Api/Dockerfile
+#    container_name: rag-api
+#    restart: unless-stopped
+#    ports:
+#      - "5227:8080"
+#    environment:
+#      - ASPNETCORE_ENVIRONMENT=Development
+#      - ConnectionStrings__DbConnection=Host=postgres;Port=5432;Database=ragdb;Username=raguser;Password=ragpassword
+#      - RabbitMq__Host=rabbitmq
+#      - Ollama__BaseUrl=http://host.docker.internal:11434
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+#      rabbitmq:
+#        condition: service_healthy
 
 volumes:
   postgres_data:

@@ -3,13 +3,17 @@ using RagAgent.Application.Abstractions.AI;
 using RagAgent.Infrastructure.AI.Ollama;
 using RagAgent.Infrastructure.Extensions;
 using RagAgent.Infrastructure.Persistence;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
-services.AddInfrastructure(configuration);
+builder.Services.AddSerilog((services, loggerConfiguration) => loggerConfiguration
+    .ReadFrom.Configuration(builder.Configuration)
+    .ReadFrom.Services(services));
 
+services.AddInfrastructure(configuration);
 services.AddHttpClient<IEmbeddingGenerator,
     OllamaEmbeddingGenerator>(
     client =>
@@ -24,19 +28,23 @@ services.AddHttpClient<IEmbeddingGenerator,
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
-
-
 var app = builder.Build();
 
-
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "RagAgent API v1");
+    });
 }
 
-app.UseHttpsRedirection();
+app.UseSerilogRequestLogging();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 app.MapControllers();
 
 using var scope = app.Services.CreateScope();

@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using RagAgent.Application.Abstractions;
 using RagAgent.Application.Abstractions.Persistence;
 using RagAgent.Application.Abstractions.Processing;
@@ -16,12 +17,14 @@ public class ChunkDocumentConsumer(
     IDocumentChunkRepository chunkRepository,
     IProcessingJobService jobService,
     ITextChunker chunker,
-    IUnitOfWork unitOfWork)
+    IUnitOfWork unitOfWork,
+    ILogger<ChunkDocumentConsumer> logger)
     : IConsumer<ChunkingRequested>
 {
     public async Task Consume(ConsumeContext<ChunkingRequested> context)
     {
         var message = context.Message;
+        logger.LogInformation("Starting chunking for document {DocumentId}", message.DocumentId);
 
         var document = await documentRepository.GetAsync(message.DocumentId, context.CancellationToken);
         if (document == null)
@@ -33,7 +36,7 @@ public class ChunkDocumentConsumer(
         if (documentText == null)
             throw new InvalidOperationException($"Extracted text for document {message.DocumentId} not found.");
 
-        var chunks = chunker.Split(documentText.Text);
+        var chunks = chunker.Split(documentText.Text).ToList();
 
         foreach (var textChunk in chunks)
         {
@@ -46,6 +49,7 @@ public class ChunkDocumentConsumer(
         }
 
         await unitOfWork.SaveChangesAsync(context.CancellationToken);
+        logger.LogInformation("Split document {DocumentId} into {ChunkCount} chunks", message.DocumentId, chunks.Count);
 
         await jobService.CompleteStepAsync(
             message.JobId,
