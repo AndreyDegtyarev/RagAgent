@@ -1,4 +1,4 @@
-﻿using RagAgent.Domain.Enums;
+using RagAgent.Domain.Enums;
 using RagAgent.Domain.Interfaces;
 
 namespace RagAgent.Domain.Entities;
@@ -57,5 +57,22 @@ public class Document : IDomainEntity
 
 
         Status = DocumentStatus.Processing;
+    }
+
+
+    public void MarkCompleted()
+    {
+        if (Status != DocumentStatus.Processing)
+            throw new InvalidOperationException();
+
+
+        Status = DocumentStatus.Completed;
+        CompletedAt = DateTime.UtcNow;
+    }
+
+
+    public void MarkFailed()
+    {
+        Status = DocumentStatus.Failed;
     }
 }

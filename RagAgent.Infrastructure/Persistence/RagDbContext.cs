@@ -1,4 +1,4 @@
-﻿using MassTransit;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using RagAgent.Domain.Entities;
 
@@ -9,6 +9,7 @@ public class RagDbContext : DbContext
     public DbSet<DocumentChunk> Chunks => Set<DocumentChunk>();
     public DbSet<Document> Documents => Set<Document>();
     public DbSet<DocumentProcessingJob> DocumentProcessingJobs => Set<DocumentProcessingJob>();
+    public DbSet<DocumentText> DocumentTexts => Set<DocumentText>();
 
     public RagDbContext(DbContextOptions<RagDbContext> options) : base(options)
     {

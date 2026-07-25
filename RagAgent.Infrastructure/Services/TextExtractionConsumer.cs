@@ -1,4 +1,4 @@
-﻿using MassTransit;
+using MassTransit;
 using RagAgent.Application.Abstractions;
 using RagAgent.Application.Abstractions.Persistence;
 using RagAgent.Contracts.Events;
@@ -11,6 +11,7 @@ public sealed class TextExtractionConsumer(
     IDocumentProcessingJobRepository jobRepository,
     IFileStorage fileStorage,
     ITextExtractor textExtractor,
+    IDocumentTextRepository documentTextRepository,
     IEventPublisher publisher,
     IUnitOfWork unitOfWork)
     : IConsumer<TextExtractionRequested>
@@ -42,8 +43,15 @@ public sealed class TextExtractionConsumer(
                 stream,
                 context.CancellationToken);
 
-        // TODO:
-        // сохранить DocumentText
+        var documentText = new DocumentText(
+            message.DocumentId,
+            text.Text,
+            text.Text.Length,
+            text.Pages);
+
+        await documentTextRepository.SaveAsync(
+            documentText,
+            context.CancellationToken);
 
         job.Complete();
 

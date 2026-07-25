@@ -46,6 +46,8 @@ public static class ImportServiceExtensions
             cfg.AddConsumer<DocumentFileStoredConsumer>();
             cfg.AddConsumer<ChunkDocumentConsumer>();
             cfg.AddConsumer<EmbeddingConsumer>();
+            cfg.AddConsumer<TextExtractionConsumer>();
+            cfg.AddConsumer<VectorIndexingConsumer>();
 
             cfg.AddEntityFrameworkOutbox<RagDbContext>(o =>
             {
@@ -95,5 +97,8 @@ public static class ImportServiceExtensions
         services.AddScoped<EmbeddingHandler>();
         services.AddScoped<IDocumentChunkRepository, DocumentChunkRepository>();
         services.AddScoped<IDocumentChunkEmbeddingRepository, DocumentChunkEmbeddingRepository>();
+        services.AddScoped<IPdfTextExtractor, PdfPigTextExtractor>();
+        services.AddScoped<ITextExtractor, PdfTextExtractor>();
+        services.AddScoped<IDocumentTextRepository, DocumentTextRepository>();
     }
 }
