@@ -10,14 +10,16 @@ public class PdfPigTextExtractor : IPdfTextExtractor
         Stream pdf,
         CancellationToken cancellationToken)
     {
-        using var document = PdfDocument.Open(pdf);
+        //using var document = PdfDocument.Open(pdf);
+        // var result = document
+        //     .GetPages()
+        //     .Select(page => new PageText(page.Number, page.Text))
+        //     .ToList();
 
-        var result = document
-            .GetPages()
-            .Select(page => new PageText(page.Number, page.Text))
-            .ToList();
-
-
+        var result = new[]
+        {
+            new PageText(1,"TEST")
+        };
         return Task.FromResult<IReadOnlyList<PageText>>(result);
     }
 }

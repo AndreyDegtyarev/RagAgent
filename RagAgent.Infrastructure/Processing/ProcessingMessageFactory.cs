@@ -8,7 +8,7 @@ namespace RagAgent.Infrastructure.Processing;
 
 public class ProcessingMessageFactory : IProcessingMessageFactory
 {
-    public IMessage Create(DocumentProcessingJob job)
+    public object Create(DocumentProcessingJob job)
     {
         return job.Step switch
         {

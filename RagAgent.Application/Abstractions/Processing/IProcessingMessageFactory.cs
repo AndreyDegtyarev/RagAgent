@@ -5,5 +5,5 @@ namespace RagAgent.Application.Abstractions.Processing;
 
 public interface IProcessingMessageFactory
 {
-    IMessage Create(DocumentProcessingJob job);
+    object Create(DocumentProcessingJob job);
 }
