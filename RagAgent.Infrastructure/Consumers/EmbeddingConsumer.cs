@@ -2,7 +2,7 @@
 using RagAgent.Application.Abstractions.Processing.Embedding;
 using RagAgent.Contracts.Events;
 
-namespace RagAgent.Infrastructure.Messaging.Consumers;
+namespace RagAgent.Infrastructure.Consumers;
 
 public sealed class EmbeddingConsumer(EmbeddingHandler handler) : IConsumer<EmbeddingRequested>
 {

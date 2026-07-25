@@ -6,7 +6,7 @@ using RagAgent.Contracts.Events;
 using RagAgent.Domain.Entities;
 using RagAgent.Domain.Enums;
 
-namespace RagAgent.Infrastructure.Services;
+namespace RagAgent.Infrastructure.Consumers;
 
 public sealed class TextExtractionConsumer(
     IFileStorage fileStorage,

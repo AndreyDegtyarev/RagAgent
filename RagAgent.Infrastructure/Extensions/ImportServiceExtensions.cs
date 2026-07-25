@@ -8,8 +8,8 @@ using RagAgent.Application.Abstractions.Processing;
 using RagAgent.Application.Abstractions.Processing.Embedding;
 using RagAgent.Application.Commands.UploadDocument;
 using RagAgent.Infrastructure.AI.Ollama;
+using RagAgent.Infrastructure.Consumers;
 using RagAgent.Infrastructure.Messaging;
-using RagAgent.Infrastructure.Messaging.Consumers;
 using RagAgent.Infrastructure.Persistence;
 using RagAgent.Infrastructure.Processing;
 using RagAgent.Infrastructure.Repositories;
@@ -41,8 +41,7 @@ public static class ImportServiceExtensions
         services.AddMassTransit(cfg =>
         {
             cfg.SetKebabCaseEndpointNameFormatter();
-    
-            cfg.AddConsumer<DocumentUploadedConsumer>();
+            
             cfg.AddConsumer<DocumentFileStoredConsumer>();
             cfg.AddConsumer<ChunkDocumentConsumer>();
             cfg.AddConsumer<EmbeddingConsumer>();

@@ -40,10 +40,13 @@ public sealed class ProcessingJobService(
             documentId,
             step);
 
-        await repository.AddAsync(job, cancellationToken);
+        job.Start();
         
+        await repository.AddAsync(job, cancellationToken);
+
+        var message = messageFactory.Create(job);
         await publishEndpoint.Publish(
-            messageFactory.Create(job),
+            message,
             cancellationToken);
         
         await unitOfWork.SaveChangesAsync(cancellationToken);

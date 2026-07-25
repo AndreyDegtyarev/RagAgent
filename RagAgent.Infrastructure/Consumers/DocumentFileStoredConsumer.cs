@@ -3,7 +3,7 @@ using RagAgent.Application.Abstractions.Processing;
 using RagAgent.Contracts.Events;
 using RagAgent.Domain.Enums;
 
-namespace RagAgent.Infrastructure.Messaging.Consumers;
+namespace RagAgent.Infrastructure.Consumers;
 
 public class DocumentFileStoredConsumer(
     IProcessingJobService processingJobService)

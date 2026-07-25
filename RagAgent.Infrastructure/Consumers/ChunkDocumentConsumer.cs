@@ -8,7 +8,7 @@ using RagAgent.Contracts.Events;
 using RagAgent.Domain.Entities;
 using RagAgent.Domain.Enums;
 
-namespace RagAgent.Infrastructure.Messaging.Consumers;
+namespace RagAgent.Infrastructure.Consumers;
 
 public class ChunkDocumentConsumer(
     IDocumentRepository documentRepository,

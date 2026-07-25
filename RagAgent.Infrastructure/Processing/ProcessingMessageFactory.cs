@@ -13,7 +13,7 @@ public class ProcessingMessageFactory : IProcessingMessageFactory
         return job.Step switch
         {
             ProcessingStep.TextExtraction =>
-                new TextExtractionRequested(job.Id, job.DocumentId),
+                new TextExtractionRequested(job.DocumentId),
 
             ProcessingStep.Chunking =>
                 new ChunkingRequested(job.Id, job.DocumentId),

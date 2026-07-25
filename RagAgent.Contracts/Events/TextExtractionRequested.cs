@@ -2,6 +2,4 @@
 
 namespace RagAgent.Contracts.Events;
 
-public sealed record TextExtractionRequested(
-    Guid JobId,
-    Guid DocumentId) : IMessage;
+public sealed record TextExtractionRequested(Guid DocumentId) : IMessage;

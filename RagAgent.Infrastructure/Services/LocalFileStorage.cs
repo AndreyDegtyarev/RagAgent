@@ -16,8 +16,7 @@ public class LocalFileStorage(IConfiguration configuration) : IFileStorage
         
         var path = Path.Combine(_folder, $"{documentId}.pdf");
         await using var file = File.Create(path);
-
-
+        
         await content.CopyToAsync(
             file,
             cancellationToken);
