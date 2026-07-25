@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="RagAgent.Api/RagAgent.Api.csproj" />
+  <Project Path="RagAgent.Application/RagAgent.Application.csproj" />
+  <Project Path="RagAgent.Contracts/RagAgent.Contracts.csproj" />
+  <Project Path="RagAgent.Domain/RagAgent.Domain.csproj" />
+  <Project Path="RagAgent.Infrastructure/RagAgent.Infrastructure.csproj" />
+  <Project Path="RagAgent.Tests/RagAgent.Tests.csproj" />
+</Solution>

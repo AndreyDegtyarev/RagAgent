@@ -1,0 +1,18 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Log]/
+[Logs]/
+
+# IDEs and editors
+.vs/
+.idea/
+*.sln.DotSettings.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstate
+
+# OS files
+.DS_Store
+Thumbs.db
