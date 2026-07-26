@@ -2,6 +2,6 @@
 
 internal sealed class OllamaEmbeddingResponse
 {
-    public float[] Embedding { get; set; }
+    public float[][] Embeddings { get; set; }
         = [];
 }

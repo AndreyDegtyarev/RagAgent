@@ -103,5 +103,6 @@ public static class ImportServiceExtensions
         services.AddScoped<IPdfTextExtractor, PdfPigTextExtractor>();
         services.AddScoped<ITextExtractor, PdfTextExtractor>();
         services.AddScoped<IDocumentTextRepository, DocumentTextRepository>();
+        services.AddScoped<IFileInfoService, FileInfoService>();
     }
 }

@@ -10,12 +10,11 @@ public class Document : IDomainEntity
     }
 
 
-    public Document(string name)
+    public Document(string name, string contentType)
     {
         Id = Guid.CreateVersion7();
         OriginalFileName = name;
-        StoragePath = name;
-        ContentType = "application/octet-stream";
+        ContentType = contentType;
         Status = DocumentStatus.Created;
         CreatedAt = DateTime.UtcNow;
     }
@@ -42,6 +41,11 @@ public class Document : IDomainEntity
     public uint RowVersion { get; private set; } = default!;
 
 
+    public void SetStoragePath(string storagePath)
+    {
+        StoragePath = storagePath;
+    }
+    
     public void MarkFileStored()
     {
         if (Status != DocumentStatus.Created)

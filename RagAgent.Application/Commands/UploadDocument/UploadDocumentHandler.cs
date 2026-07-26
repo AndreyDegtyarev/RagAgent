@@ -9,11 +9,16 @@ public class UploadDocumentHandler(
     IDocumentRepository documentRepository,
     IFileStorage storage,
     IEventPublisher publisher,
+    IFileInfoService  fileInfoService,
     IUnitOfWork unitOfWork)
 {
     public async Task<Guid> Handle(UploadDocumentCommand command, CancellationToken ct)
     {
-        var document = new Document(command.FileName);
+        var contentType = fileInfoService.GetContentType(command.File);
+        var document = new Document(command.FileName, contentType);
+        var storagePath = fileInfoService.GetPath(document.Id, command.FileName);
+        
+        document.SetStoragePath(storagePath);
         
         await documentRepository.AddAsync(document, ct);
         await unitOfWork.SaveChangesAsync(ct);

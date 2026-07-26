@@ -14,7 +14,7 @@ public sealed class OllamaEmbeddingGenerator(
     private readonly OllamaOptions _options = options.Value;
 
     public EmbeddingModel Model =>
-        SupportedEmbeddingModels.MultilingualE5Base;
+        SupportedEmbeddingModels.AllMinilm;
     
 
     public async Task<Embedding> GenerateAsync(
@@ -40,11 +40,11 @@ public sealed class OllamaEmbeddingGenerator(
                 .ReadFromJsonAsync<OllamaEmbeddingResponse>(
                     cancellationToken);
         
-        if (result?.Embedding == null)
+        if (result?.Embeddings == null ||  result.Embeddings.Length == 0)
         {
             throw new InvalidOperationException("Ollama returned empty embedding.");
         }
         
-        return Embedding.Create(Model, result.Embedding);
+        return Embedding.Create(Model, result.Embeddings[0]);
     }
 }

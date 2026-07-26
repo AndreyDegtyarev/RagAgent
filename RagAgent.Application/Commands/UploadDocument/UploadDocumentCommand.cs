@@ -2,4 +2,7 @@
 
 public sealed record UploadDocumentCommand(
     string FileName,
-    Stream File);
+    Stream File)
+{
+    public long FileSize => File.Length;
+}

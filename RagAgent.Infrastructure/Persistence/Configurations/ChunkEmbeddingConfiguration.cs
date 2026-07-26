@@ -10,7 +10,7 @@ public class ChunkEmbeddingConfiguration : EntityConfigurationBase<ChunkEmbeddin
     protected override void DoConfigure(EntityTypeBuilder<ChunkEmbedding> builder)
     {
         builder.Property(x => x.Embedding)
-            .HasColumnType("vector(768)")
+            .HasColumnType("vector")
             .HasConversion<EmbeddingConverter>();
         
         builder.OwnsOne(

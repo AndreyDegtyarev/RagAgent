@@ -209,7 +209,7 @@ namespace RagAgent.Infrastructure.Persistence.Migrations
 
                     b.Property<Vector>("Embedding")
                         .IsRequired()
-                        .HasColumnType("vector(768)");
+                        .HasColumnType("vector");
 
                     b.Property<string>("ModelName")
                         .IsRequired()

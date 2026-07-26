@@ -19,4 +19,11 @@ public static class SupportedEmbeddingModels
                 "multilingual-e5-base",
                 768,
                 EmbeddingProvider.Ollama);
+    
+    public static readonly EmbeddingModel
+        AllMinilm =
+            EmbeddingModel.Create(
+                "all-minilm",
+                384,
+                EmbeddingProvider.Ollama);
 }

@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/scripts/">
+    <File Path="ef.ps1" />
+    <File Path="run.ps1" />
+  </Folder>
   <Project Path="RagAgent.Api/RagAgent.Api.csproj" />
   <Project Path="RagAgent.Application/RagAgent.Application.csproj" />
   <Project Path="RagAgent.Contracts/RagAgent.Contracts.csproj" />
