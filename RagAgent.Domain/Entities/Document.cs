@@ -10,11 +10,12 @@ public class Document : IDomainEntity
     }
 
 
-    public Document(string name, string contentType)
+    public Document(string name, string contentType, long fileSize)
     {
         Id = Guid.CreateVersion7();
         OriginalFileName = name;
         ContentType = contentType;
+        FileSize = fileSize;
         Status = DocumentStatus.Created;
         CreatedAt = DateTime.UtcNow;
     }

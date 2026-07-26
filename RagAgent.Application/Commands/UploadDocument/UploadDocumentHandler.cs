@@ -15,7 +15,7 @@ public class UploadDocumentHandler(
     public async Task<Guid> Handle(UploadDocumentCommand command, CancellationToken ct)
     {
         var contentType = fileInfoService.GetContentType(command.File);
-        var document = new Document(command.FileName, contentType);
+        var document = new Document(command.FileName, contentType, command.FileSize);
         var storagePath = fileInfoService.GetPath(document.Id, command.FileName);
         
         document.SetStoragePath(storagePath);

@@ -74,8 +74,18 @@ $elapsed = 0
 $healthy = $false
 
 while ($elapsed -lt $timeout) {
-    $postgresHealthy = (docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}unhealthy{{end}}' rag-postgres 2>$null) -eq "healthy"
-    $rabbitmqHealthy = (docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}unhealthy{{end}}' rag-rabbitmq 2>$null) -eq "healthy"
+    $postgresId = docker compose -f "$PSScriptRoot\devops\docker-compose.yaml" ps -q postgres 2>$null
+    $rabbitmqId = docker compose -f "$PSScriptRoot\devops\docker-compose.yaml" ps -q rabbitmq 2>$null
+
+    $postgresHealthy = $false
+    if ($postgresId) {
+        $postgresHealthy = (docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}unhealthy{{end}}' $postgresId 2>$null) -eq "healthy"
+    }
+
+    $rabbitmqHealthy = $false
+    if ($rabbitmqId) {
+        $rabbitmqHealthy = (docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}unhealthy{{end}}' $rabbitmqId 2>$null) -eq "healthy"
+    }
     
     if ($postgresHealthy -and $rabbitmqHealthy) {
         Write-Host "[+] Infrastructure services are healthy!" -ForegroundColor Green

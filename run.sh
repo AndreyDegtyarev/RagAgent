@@ -62,8 +62,18 @@ elapsed=0
 healthy=0
 
 while [ "$elapsed" -lt "$timeout" ]; do
-    postgres_status=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}unhealthy{{end}}' rag-postgres 2>/dev/null)
-    rabbitmq_status=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}unhealthy{{end}}' rag-rabbitmq 2>/dev/null)
+    postgres_id=$(docker compose -f devops/docker-compose.yaml ps -q postgres 2>/dev/null)
+    rabbitmq_id=$(docker compose -f devops/docker-compose.yaml ps -q rabbitmq 2>/dev/null)
+
+    postgres_status="unhealthy"
+    if [ -n "$postgres_id" ]; then
+        postgres_status=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}unhealthy{{end}}' "$postgres_id" 2>/dev/null)
+    fi
+
+    rabbitmq_status="unhealthy"
+    if [ -n "$rabbitmq_id" ]; then
+        rabbitmq_status=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}unhealthy{{end}}' "$rabbitmq_id" 2>/dev/null)
+    fi
 
     if [ "$postgres_status" = "healthy" ] && [ "$rabbitmq_status" = "healthy" ]; then
         echo -e "${GREEN}[+] Infrastructure services are healthy!${NC}"
