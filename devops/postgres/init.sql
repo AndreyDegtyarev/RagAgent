@@ -1,0 +1,1 @@
+-- Empty init.sql for postgres initialization
