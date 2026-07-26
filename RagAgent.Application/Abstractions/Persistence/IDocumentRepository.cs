@@ -1,4 +1,4 @@
-﻿using RagAgent.Domain.Entities;
+using RagAgent.Domain.Entities;
 
 namespace RagAgent.Application.Abstractions.Persistence;
 
@@ -10,5 +10,8 @@ public interface IDocumentRepository
 
     Task<Document?> GetAsync(
         Guid id,
+        CancellationToken cancellationToken);
+
+    Task<List<Document>> GetAllAsync(
         CancellationToken cancellationToken);
 }

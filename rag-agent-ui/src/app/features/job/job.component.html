@@ -1,0 +1,122 @@
+<div class="job-container">
+  <!-- Upload Card -->
+  <div class="glass-card upload-section">
+    <h2>{{ translateService.t()['UPLOAD_TITLE'] }}</h2>
+    
+    <div class="upload-box" (click)="fileInput.click()">
+      <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none" accept=".pdf,.txt">
+      <mat-icon class="upload-icon">cloud_upload</mat-icon>
+      <p class="upload-prompt">{{ translateService.t()['UPLOAD_DRAG_DROP'] }}</p>
+      <p class="upload-hint">{{ translateService.t()['UPLOAD_SUPPORTED'] }}</p>
+    </div>
+
+    @if (selectedFile()) {
+      <div class="selected-file-banner">
+        <mat-icon class="file-icon">description</mat-icon>
+        <span class="file-name">{{ selectedFile()?.name }} ({{ formatBytes(selectedFile()?.size || 0) }})</span>
+        <button mat-flat-button color="primary" class="upload-btn" [disabled]="docService.isUploading()" (click)="uploadSelectedFile()">
+          @if (docService.isUploading()) {
+            <mat-spinner diameter="20" class="spinner"></mat-spinner>
+          } @else {
+            <mat-icon>send</mat-icon>
+          }
+          <span>{{ translateService.t()['UPLOAD_BUTTON'] }}</span>
+        </button>
+      </div>
+    }
+
+    @if (docService.isUploading()) {
+      <div class="progress-container">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+    }
+  </div>
+
+  <!-- Documents Grid & List -->
+  <div class="glass-card list-section">
+    <div class="list-header">
+      <h2>{{ translateService.t()['DOCS_TITLE'] }}</h2>
+      <div class="header-actions">
+        <!-- Search filter -->
+        <mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput [placeholder]="translateService.t()['DOCS_FILTER_PLACEHOLDER']" [value]="searchQuery()" (input)="searchQuery.set(fileSearch.value)" #fileSearch>
+          @if (searchQuery()) {
+            <button mat-icon-button matSuffix (click)="searchQuery.set(''); fileSearch.value = ''">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+        
+        <!-- Refresh Button -->
+        <button mat-icon-button (click)="refreshList()" [disabled]="docService.isLoading()" [matTooltip]="translateService.t()['REFRESH']">
+          @if (docService.isLoading()) {
+            <mat-spinner diameter="24"></mat-spinner>
+          } @else {
+            <mat-icon>refresh</mat-icon>
+          }
+        </button>
+      </div>
+    </div>
+
+    <!-- Spinner for document loading -->
+    @if (docService.isLoading() && docService.documents().length === 0) {
+      <div class="list-spinner-container">
+        <mat-spinner></mat-spinner>
+      </div>
+    } @else {
+      <!-- Main Table -->
+      @if (filteredDocuments().length > 0) {
+        <div class="table-responsive">
+          <table mat-table [dataSource]="filteredDocuments()" class="docs-table">
+            
+            <!-- Document Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> {{ translateService.t()['COL_NAME'] }} </th>
+              <td mat-cell *matCellDef="let doc">
+                <div class="doc-name-cell">
+                  <mat-icon class="doc-icon">insert_drive_file</mat-icon>
+                  <span class="doc-name-text" [matTooltip]="doc.originalFileName">{{ doc.originalFileName }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- File Size Column -->
+            <ng-container matColumnDef="size">
+              <th mat-header-cell *matHeaderCellDef> {{ translateService.t()['COL_SIZE'] }} </th>
+              <td mat-cell *matCellDef="let doc"> {{ formatBytes(doc.fileSize) }} </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef> {{ translateService.t()['COL_STATUS'] }} </th>
+              <td mat-cell *matCellDef="let doc">
+                <span class="status-badge" [ngClass]="getStatusClass(doc.status)">
+                  @if (doc.status === 3) {
+                    <!-- Processing spinner inside badge -->
+                    <mat-spinner diameter="12" class="badge-spinner"></mat-spinner>
+                  }
+                  {{ getStatusLabel(doc.status) }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Created At Column -->
+            <ng-container matColumnDef="created">
+              <th mat-header-cell *matHeaderCellDef> {{ translateService.t()['COL_CREATED'] }} </th>
+              <td mat-cell *matCellDef="let doc"> {{ doc.createdAt | date:'medium' }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">inbox</mat-icon>
+          <p>{{ translateService.t()['NO_DOCUMENTS'] }}</p>
+        </div>
+      }
+    }
+  </div>
+</div>

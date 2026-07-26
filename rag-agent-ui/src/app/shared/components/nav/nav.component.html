@@ -1,0 +1,37 @@
+<mat-toolbar class="glass-toolbar navbar" color="primary">
+  <div class="nav-container">
+    <a routerLink="/" class="brand">
+      <mat-icon class="brand-icon">blur_on</mat-icon>
+      <span>RagAgent</span>
+    </a>
+    
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" mat-button>
+        {{ translateService.t()['NAV_HOME'] }}
+      </a>
+      <a routerLink="/documents" routerLinkActive="active-link" mat-button>
+        {{ translateService.t()['NAV_DOCUMENTS'] }}
+      </a>
+    </div>
+
+    <div class="actions">
+      <!-- Theme picker (Light/Dark Toggle) -->
+      <button mat-icon-button (click)="themeService.toggleTheme()" [matTooltip]="themeService.isDarkMode() ? 'Switch to Light Theme' : 'Switch to Dark Theme'">
+        <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
+      <!-- Language Picker -->
+      <button mat-button [matMenuTriggerFor]="langMenu" class="lang-btn">
+        <mat-icon>language</mat-icon>
+        <span class="lang-text">{{ translateService.currentLanguage() | uppercase }}</span>
+      </button>
+      <mat-menu #langMenu="matMenu" class="glass-menu">
+        @for (lang of languages; track lang.code) {
+          <button mat-menu-item (click)="setLanguage(lang.code)">
+            <span [class.active-lang]="translateService.currentLanguage() === lang.code">{{ lang.label }}</span>
+          </button>
+        }
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>

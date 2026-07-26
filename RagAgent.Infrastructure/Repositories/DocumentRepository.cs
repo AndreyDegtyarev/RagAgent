@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RagAgent.Application.Abstractions.Persistence;
 using RagAgent.Domain.Entities;
 using RagAgent.Infrastructure.Persistence;
@@ -34,5 +34,13 @@ public class DocumentRepository : IDocumentRepository
             .FirstOrDefaultAsync(
                 x => x.Id == id,
                 cancellationToken);
+    }
+
+    public Task<List<Document>> GetAllAsync(
+        CancellationToken cancellationToken)
+    {
+        return _db.Documents
+            .OrderByDescending(x => x.CreatedAt)
+            .ToListAsync(cancellationToken);
     }
 }

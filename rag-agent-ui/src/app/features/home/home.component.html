@@ -1,0 +1,46 @@
+<div class="home-container">
+  <div class="glass-card hero-section">
+    <div class="hero-content">
+      <h1 class="gradient-text">{{ translateService.t()['WELCOME_TITLE'] }}</h1>
+      <p class="subtitle">{{ translateService.t()['WELCOME_SUBTITLE'] }}</p>
+      <p class="description">{{ translateService.t()['WELCOME_DESC'] }}</p>
+      
+      <div class="cta-buttons">
+        <a routerLink="/documents" mat-raised-button color="primary" class="primary-cta">
+          <mat-icon>folder_open</mat-icon>
+          <span>{{ translateService.t()['NAV_DOCUMENTS'] }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-grid">
+    <div class="glass-card feature-card">
+      <div class="feature-icon-wrapper psql">
+        <mat-icon class="feature-icon">storage</mat-icon>
+      </div>
+      <h3>PostgreSQL + pgvector</h3>
+      <p>Documents are split into semantic chunks, and vector embeddings are indexed natively in PostgreSQL using the pgvector extension for sub-millisecond similarity search.</p>
+    </div>
+
+    <div class="glass-card feature-card">
+      <div class="feature-icon-wrapper rmq">
+        <mat-icon class="feature-icon">sync_alt</mat-icon>
+      </div>
+      <h3>Event-Driven Processing</h3>
+      <p>Uses RabbitMQ and MassTransit to process files asynchronously, chunk text using PdfPig, and index chunks concurrently without blocking the main workflow.</p>
+    </div>
+
+    <div class="glass-card feature-card">
+      <div class="feature-icon-wrapper ollama">
+        <mat-icon class="feature-icon">psychology</mat-icon>
+      </div>
+      <h3>Ollama Embedding Models</h3>
+      <p>Generates high-dimensional vector representations using multilingual-e5-base running on local Ollama server for robust context analysis.</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>{{ translateService.t()['FOOTER_TEXT'] }}</p>
+  </footer>
+</div>

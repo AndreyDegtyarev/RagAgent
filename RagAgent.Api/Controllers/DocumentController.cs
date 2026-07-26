@@ -1,12 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using RagAgent.Application.Abstractions.Persistence;
 using RagAgent.Application.Commands.UploadDocument;
 
 namespace RagAgent.Api.Controllers;
 
 [ApiController]
 [Route("api/documents")]
-public class DocumentsController(UploadDocumentHandler handler) : ControllerBase
+public class DocumentsController(
+    UploadDocumentHandler handler,
+    IDocumentRepository documentRepository) : ControllerBase
 {
+    [HttpGet]
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    {
+        var documents = await documentRepository.GetAllAsync(cancellationToken);
+        return Ok(documents);
+    }
     [HttpPost]
     public async Task<IActionResult> Upload(
         IFormFile file,

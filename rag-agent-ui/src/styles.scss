@@ -1,0 +1,95 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Define a light theme with typography direct config
+$light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  typography: (
+    brand-family: '"Inter", "Outfit", "Roboto", sans-serif',
+    plain-family: '"Inter", "Outfit", "Roboto", sans-serif',
+  )
+));
+
+// Define a dark theme with typography direct config
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$cyan-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  typography: (
+    brand-family: '"Inter", "Outfit", "Roboto", sans-serif',
+    plain-family: '"Inter", "Outfit", "Roboto", sans-serif',
+  )
+));
+
+// Default theme configuration
+html {
+  // Design Tokens (Light Theme)
+  --bg-gradient: linear-gradient(135deg, #f3f5f8 0%, #e2e8f0 100%);
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-border: rgba(255, 255, 255, 0.4);
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+  --toolbar-bg: rgba(255, 255, 255, 0.8);
+  --active-nav: #2563eb;
+
+  @include mat.all-component-themes($light-theme);
+}
+
+// Dark theme adjustments
+html.dark-theme {
+  // Design Tokens (Dark Theme)
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --card-bg: rgba(30, 41, 59, 0.7);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+  --toolbar-bg: rgba(15, 23, 42, 0.8);
+  --active-nav: #38bdf8;
+
+  @include mat.all-component-colors($dark-theme);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Inter", "Outfit", "Roboto", sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+// Modern styling utilities
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 16px;
+  padding: 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-toolbar {
+  background: var(--toolbar-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--card-border);
+  box-shadow: var(--glass-shadow);
+}
+
+// Import Inter font
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');

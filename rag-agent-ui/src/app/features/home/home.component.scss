@@ -1,0 +1,133 @@
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.hero-section {
+  padding: 60px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+  letter-spacing: -1.5px;
+  background: linear-gradient(135deg, var(--active-nav) 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.description {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  max-width: 760px;
+  margin: 0 auto 36px auto;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.primary-cta {
+  padding: 12px 28px !important;
+  font-weight: 600 !important;
+  border-radius: 30px !important;
+  font-size: 1.05rem !important;
+  
+  ::ng-deep .mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 24px;
+  
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 16px 0 12px 0;
+  }
+  
+  p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+}
+
+.feature-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  
+  .feature-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+  
+  &.psql {
+    background: rgba(37, 99, 235, 0.1);
+    color: #2563eb;
+  }
+  &.rmq {
+    background: rgba(249, 115, 22, 0.1);
+    color: #f97316;
+  }
+  &.ollama {
+    background: rgba(168, 85, 247, 0.1);
+    color: #a855f7;
+  }
+}
+
+.footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .gradient-text {
+    font-size: 2.25rem;
+  }
+  .subtitle {
+    font-size: 1.15rem;
+  }
+  .hero-section {
+    padding: 36px 20px;
+  }
+}
